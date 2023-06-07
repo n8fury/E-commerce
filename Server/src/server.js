@@ -1,6 +1,8 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+app.use(morgan('dev'));
 
 app.get('/health', (req, res) => {
 	res.status(200).send({
@@ -9,12 +11,17 @@ app.get('/health', (req, res) => {
 });
 app.get('/', (req, res) => {
 	res.status(200).send({
-		message: 'Success',
+		message: 'Home Route',
+	});
+});
+app.get('/product', (req, res) => {
+	res.status(200).send({
+		message: 'Product Route',
 	});
 });
 app.get('/products', (req, res) => {
 	res.status(200).send({
-		message: 'Products',
+		message: 'Products Route',
 	});
 });
 
