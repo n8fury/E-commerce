@@ -1,7 +1,9 @@
 const isLoggedin = (req, res, next) => {
-	const loggedin = false;
+	const loggedin = true;
 
 	if (loggedin) {
+		req.body.id = 101;
+		console.log('login middleware');
 		next();
 	} else {
 		return res.status(401).send({

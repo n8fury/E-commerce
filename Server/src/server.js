@@ -4,6 +4,8 @@ const isLoggedin = require('../middlewares/session');
 
 const app = express();
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(isLoggedin);
 
 app.get('/health', (req, res) => {
@@ -21,9 +23,15 @@ app.get('/product', isLoggedin, (req, res) => {
 		message: 'Product Route',
 	});
 });
-app.get('/products',isLoggedin, (req, res) => {
+app.get('/products', isLoggedin, (req, res) => {
 	res.status(200).send({
 		message: 'Products Route',
+	});
+});
+app.get('/user/profile', isLoggedin, (req, res) => {
+	console.log(req.body.id);
+	res.status(200).send({
+		message: 'profile Route',
 	});
 });
 
