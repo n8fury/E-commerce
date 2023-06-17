@@ -50,14 +50,15 @@ app.get('/user/profile', isLoggedin, (req, res) => {
 
 //client error handling
 app.use((req, res, next) => {
-	createError(404, 'Route not found');
-	next();
+	next(createError(404, 'route not found'));
 });
 
-//server error handling
+//server error handling => all errors even client errors
 app.use((err, req, res, next) => {
-	console.log(err.stack);
-	createError(500, 'Something went Wrong');
+	return res.status(err.status || 500).json({
+		success: 'False',
+		message: err.message,
+	});
 });
 
 module.exports = app;
