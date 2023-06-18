@@ -1,7 +1,11 @@
-const getHealth = (req, res) => {
+const users = require('../models/userModel');
+
+const getUsers = (req, res) => {
+	console.log(req.body.id);
 	res.status(200).send({
-		message: 'API is working',
+		message: 'profile Route',
+		users,
 	});
 };
 
-module.exports = { getHealth };
+module.exports = { getUsers };
