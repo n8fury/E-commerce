@@ -31,6 +31,7 @@ app.use('/health', healthRouter);
 app.use('/users', userRouter);
 app.use('/products', productRouter);
 
+//home route
 app.get('/', (req, res) => {
 	res.status(200).send({
 		message: 'Home Route',
