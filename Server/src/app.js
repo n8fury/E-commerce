@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
 const healthRouter = require('./routers/healthRouter');
 const productRouter = require('./routers/productRouter');
+const seedRouter = require('./routers/seedRouter');
 
 const app = express();
 
@@ -27,9 +28,10 @@ app.use(body_parser.urlencoded({ extended: true }));
 app.use(isLoggedin);
 
 //routes
-app.use('/health', healthRouter);
-app.use('/users', userRouter);
-app.use('/products', productRouter);
+app.use('/api/health', healthRouter);
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
+app.use('/api/seed', seedRouter);
 
 //home route
 app.get('/', (req, res) => {
