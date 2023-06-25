@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
+const { successResponse } = require('./responseController');
 
 const getUsers = async (req, res, next) => {
 	try {
@@ -17,7 +18,8 @@ const getUsers = async (req, res, next) => {
 				{ email: { $regex: searchRegExp } },
 			],
 		};
-		const option = { password: 0 };
+		const option = { password: 0 }; // not showing the password field in the searched
+
 		const users = await User.find(filter, option)
 			.limit(limit) // limiting user per page
 			.skip((page - 1) * limit); // skipping user as page increase
@@ -25,14 +27,17 @@ const getUsers = async (req, res, next) => {
 
 		const count = await User.find(filter).countDocuments(); // counting search result for pagination
 
-		res.status(200).send({
-			message: 'User Route',
-			users,
-			pagination: {
-				totalPage: Math.ceil(count / limit),
-				currentPage: page,
-				previousPage: page - 1 > 0 ? page - 1 : null,
-				nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null,
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'Users Returned SuccessFully',
+			payload: {
+				users,
+				pagination: {
+					totalPage: Math.ceil(count / limit),
+					currentPage: page,
+					previousPage: page - 1 > 0 ? page - 1 : null,
+					nextPage: page + 1 <= Math.ceil(count / limit) ? page + 1 : null,
+				},
 			},
 		});
 	} catch (error) {
