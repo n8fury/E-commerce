@@ -6,7 +6,7 @@ const getUsers = async (req, res, next) => {
 	try {
 		const search = req.query.search || '';
 		const page = Number(req.query.page) || 1;
-		const limit = Number(req.query.limit) || 2;
+		const limit = Number(req.query.limit) || 5;
 		const searchRegExp = new RegExp('.*' + search + '.*', 'i'); // search regex
 		const filter = {
 			isAdmin: {
@@ -45,4 +45,23 @@ const getUsers = async (req, res, next) => {
 	}
 };
 
-module.exports = { getUsers };
+const getUser = async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		const option = { password: 0 };
+
+		const user = await User.findById(id, option);
+		if (!user) throw createError(404, 'no user found with this id');
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'User Returned SuccessFully',
+			payload: {
+				user,
+			},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = { getUsers, getUser };
