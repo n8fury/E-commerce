@@ -6,7 +6,10 @@ const seedUser = async (req, res, next) => {
 		await User.deleteMany({}); //delete all existing data
 
 		const users = await User.insertMany(data.users); // inserting dummy data
-		return res.status(201).json(users);
+		return res.status(201).json({
+			message: 'Users Seeded successfully',
+			users,
+		});
 	} catch (error) {
 		next(error);
 	}
