@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
 const { successResponse } = require('./responseController');
-const { findUser } = require('../services/findUser');
+const { findById } = require('../services/findById');
 
 const getUsers = async (req, res, next) => {
 	try {
@@ -49,7 +49,8 @@ const getUsers = async (req, res, next) => {
 const getUser = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const user = await findUser(id);
+		const option = { password: 0 };
+		const user = await findById(id, option);
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User Returned SuccessFully',
