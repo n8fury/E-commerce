@@ -47,11 +47,11 @@ const getUsers = async (req, res, next) => {
 	}
 };
 
-const getUser = async (req, res, next) => {
+const getUserByID = async (req, res, next) => {
 	try {
 		const id = req.params.id;
 		const option = { password: 0 };
-		const user = await findById(id, option);
+		const user = await findById(User, id, option);
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User Returned SuccessFully',
@@ -64,11 +64,11 @@ const getUser = async (req, res, next) => {
 	}
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteUserByID = async (req, res, next) => {
 	try {
 		const id = req.params.id;
 		const option = { password: 0 };
-		const user = await findById(id, option);
+		const user = await findById(User, id, option);
 		const userImagePath = user.image;
 		fs.access(userImagePath, (err) => {
 			if (err) {
@@ -93,4 +93,4 @@ const deleteUser = async (req, res, next) => {
 		next(error);
 	}
 };
-module.exports = { getUsers, getUser, deleteUser };
+module.exports = { getUsers, getUserByID, deleteUserByID };
