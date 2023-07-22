@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const createError = require('http-errors');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
-const fs = require('fs');
+const fs = require('fs').promises;
 
 const getUsers = async (req, res, next) => {
 	try {
@@ -70,16 +70,11 @@ const deleteUserByID = async (req, res, next) => {
 		const option = { password: 0 };
 		const user = await findById(User, id, option);
 		const userImagePath = user.image;
-		fs.access(userImagePath, (err) => {
-			if (err) {
-				console.error('user image does not exist');
-			} else {
-				fs.unlink(userImagePath, (err) => {
-					if (err) throw err;
-					console.error('user image was delete');
-				});
-			}
-		});
+		fs.access(userImagePath)
+			.then(() => fs.unlink(userImagePath))
+			.then(() => console.error('user image was delete'))
+			.catch((err) => console.error('user image was delete'));
+
 		await User.findByIdAndDelete({
 			_id: id,
 			isAdmin: false,
