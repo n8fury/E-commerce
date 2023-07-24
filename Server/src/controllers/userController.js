@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 const createError = require('http-errors');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
-const { deleteImage } = require('../helper/deleteimage');
+const { deleteImage } = require('../helper/deleteImage');
 const fs = require('fs').promises;
 
 const getUsers = async (req, res, next) => {
@@ -32,7 +32,7 @@ const getUsers = async (req, res, next) => {
 
 		return successResponse(res, {
 			statusCode: 200,
-			message: 'Users Returned SuccessFully',
+			message: 'Users Returned Successfully',
 			payload: {
 				users,
 				pagination: {
@@ -55,7 +55,7 @@ const getUserByID = async (req, res, next) => {
 		const user = await findById(User, id, option);
 		return successResponse(res, {
 			statusCode: 200,
-			message: 'User Returned SuccessFully',
+			message: 'User Returned Successfully',
 			payload: {
 				user,
 			},
@@ -80,10 +80,39 @@ const deleteUserByID = async (req, res, next) => {
 
 		return successResponse(res, {
 			statusCode: 200,
-			message: 'User deleted SuccessFully',
+			message: 'User deleted Successfully',
 		});
 	} catch (error) {
 		next(error);
 	}
 };
-module.exports = { getUsers, getUserByID, deleteUserByID };
+
+const registerUser = async (req, res, next) => {
+	try {
+		const { name, email, password, phone, address } = req.body;
+		const userExist = await User.exists({ email: email });
+		if (userExist) {
+			throw createError(409, 'User with this email already exists');
+		}
+
+		const newUser = {
+			name,
+			email,
+			password,
+			phone,
+			address,
+		};
+
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'User Registered Successfully',
+			payload: {
+				newUser,
+			},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = { getUsers, getUserByID, deleteUserByID, registerUser };

@@ -26,7 +26,7 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended: true }));
 
 //middleware
-app.use(isLoggedin);
+// app.use(isLoggedin);
 
 //routes
 app.use('/api/health', healthRouter);
