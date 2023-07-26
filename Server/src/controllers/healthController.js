@@ -9,3 +9,5 @@ const getHealth = (req, res, next) => {
 };
 
 module.exports = { getHealth };
+
+//dummy controller of health checker route

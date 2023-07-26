@@ -11,3 +11,6 @@ const deleteImage = async (userImagePath) => {
 };
 
 module.exports = { deleteImage };
+
+
+// for deleting and unlinking user image path and will be use for product image deletion

@@ -4,3 +4,7 @@ const createJsonWebToken = (payload, secretKey, expireTime) => {
 	const token = jwt.sign(payload, secretKey, { expireTime });
 	return token;
 };
+
+
+// for creating JWT tokens for all secure purpose
+// taken secretKey from env 

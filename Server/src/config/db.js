@@ -14,3 +14,7 @@ const connectDB = async (options = {}) => {
 };
 
 module.exports = { connectDB };
+
+
+//this connectDB async function is use to connect with database
+// used in server.js

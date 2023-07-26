@@ -116,3 +116,6 @@ const registerUser = async (req, res, next) => {
 };
 
 module.exports = { getUsers, getUserByID, deleteUserByID, registerUser };
+
+// user controller
+// TODO: well document whole codebase in this controller

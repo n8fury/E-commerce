@@ -19,3 +19,5 @@ const getProducts = (req, res, next) => {
 };
 
 module.exports = { getProduct, getProducts };
+
+//dummy product controller

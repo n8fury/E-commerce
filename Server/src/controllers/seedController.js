@@ -16,3 +16,6 @@ const seedUser = async (req, res, next) => {
 };
 
 module.exports = seedUser;
+
+
+// for populating the database with dummy data

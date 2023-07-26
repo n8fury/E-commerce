@@ -20,3 +20,7 @@ const successResponse = (
 };
 
 module.exports = { errorResponse, successResponse };
+
+
+// created response controller for better handlings error response and success response
+// used in all controllers for sending appropriate responses and response codes

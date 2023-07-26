@@ -11,3 +11,8 @@ const isLoggedin = (req, res, next) => {
 	}
 };
 module.exports = isLoggedin;
+
+
+// created this middleware which checks if the user is loggedin or not
+// will have to work in this feature
+//used in app.js
