@@ -3,6 +3,8 @@ const createError = require('http-errors');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
+const { createJsonWebToken } = require('../helper/JsonWebToken');
+const { jwtKey } = require('../secret');
 const fs = require('fs').promises;
 
 const getUsers = async (req, res, next) => {
@@ -103,11 +105,25 @@ const registerUser = async (req, res, next) => {
 			address,
 		};
 
+		//JWT
+
+		const token = createJsonWebToken(
+			{
+				name,
+				email,
+				password,
+				phone,
+				address,
+			},
+			jwtKey,
+			'10m'
+		);
+
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User Registered Successfully',
 			payload: {
-				newUser,
+				token,
 			},
 		});
 	} catch (error) {

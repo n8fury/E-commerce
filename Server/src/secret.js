@@ -7,6 +7,7 @@ const defaultImagePath =
 	process.env.DEFAULT_USER_IMAGE_PATH ||
 	'public/images/users/default_image.jpg';
 
-const jwtkey =
+const jwtKey =
 	process.env.JWT_SECRET_KEY || 'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
-module.exports = { serverPort, mongodbUrl, defaultImagePath };
+
+module.exports = { serverPort, mongodbUrl, defaultImagePath, jwtKey };
