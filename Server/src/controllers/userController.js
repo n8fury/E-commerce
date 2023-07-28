@@ -109,15 +109,20 @@ const registerUser = async (req, res, next) => {
 
 		const token = createJsonWebToken(
 			{
-				name,
-				email,
-				password,
-				phone,
-				address,
+				newUser,
 			},
 			jwtKey,
 			'10m'
 		);
+		console.log(typeof jwtKey);
+		//email_preparation
+		const emailData = {
+			email,
+			subject: 'Account Activation Email',
+			html: `
+			`,
+		};
+		//send_email_with_nodemailer
 
 		return successResponse(res, {
 			statusCode: 200,
