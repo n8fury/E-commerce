@@ -1,12 +1,12 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { jwtKey, clientUrl } = require('../secret');
 const emailWithNodemailer = require('../helper/email_helper');
-const fs = require('fs').promises;
 
 const getUsers = async (req, res, next) => {
 	try {
@@ -97,7 +97,6 @@ const registerUser = async (req, res, next) => {
 		if (userExist) {
 			throw createError(409, 'User with this email already exists');
 		}
-
 		const newUser = {
 			name,
 			email,
@@ -105,12 +104,14 @@ const registerUser = async (req, res, next) => {
 			phone,
 			address,
 		};
-
 		//JWT
-
 		const token = createJsonWebToken(
 			{
-				newUser,
+				name,
+				email,
+				password,
+				phone,
+				address,
 			},
 			jwtKey,
 			'10m'
@@ -132,7 +133,6 @@ const registerUser = async (req, res, next) => {
 			next(createError(500, 'Failed to send email due to ', error));
 			return;
 		}
-
 		return successResponse(res, {
 			statusCode: 200,
 			message: `verification email sent at ${email},please click the attached link to verify`,
@@ -145,7 +145,29 @@ const registerUser = async (req, res, next) => {
 	}
 };
 
-module.exports = { getUsers, getUserByID, deleteUserByID, registerUser };
+const verifyUser = async (req, res, next) => {
+	try {
+		const token = req.body.token;
+		if (!token) throw createError(404, 'Token not found');
+		const data = jwt.verify(token, jwtKey);
+		await User.create(data);
+		return successResponse(res, {
+			statusCode: 201,
+			message: `User created Successfully`,
+			payload: {},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+module.exports = {
+	getUsers,
+	getUserByID,
+	deleteUserByID,
+	registerUser,
+	verifyUser,
+};
 
 // user controller
 // TODO: well document whole codebase in this controller
