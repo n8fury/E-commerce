@@ -4,7 +4,8 @@ const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
-const { jwtKey } = require('../secret');
+const { jwtKey, clientUrl } = require('../secret');
+const emailWithNodemailer = require('../helper/email_helper');
 const fs = require('fs').promises;
 
 const getUsers = async (req, res, next) => {
@@ -114,19 +115,27 @@ const registerUser = async (req, res, next) => {
 			jwtKey,
 			'10m'
 		);
-		console.log(typeof jwtKey);
 		//email_preparation
 		const emailData = {
 			email,
 			subject: 'Account Activation Email',
 			html: `
+			<h2>Hello ${name}</h2>
+			<p>please click <a href="${clientUrl}/api/users/activate/${token}" target="_blank">Here</a> to activate your account</p>
+			
 			`,
 		};
 		//send_email_with_nodemailer
+		try {
+			await emailWithNodemailer(emailData);
+		} catch (error) {
+			next(createError(500, 'Failed to send email due to ', error));
+			return;
+		}
 
 		return successResponse(res, {
 			statusCode: 200,
-			message: 'User Registered Successfully',
+			message: `verification email sent at ${email},please click the attached link to verify`,
 			payload: {
 				token,
 			},

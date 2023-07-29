@@ -1,5 +1,5 @@
 const { model, Schema } = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { defaultImagePath } = require('../secret');
 
 const userSchema = new Schema(
@@ -57,7 +57,5 @@ const userSchema = new Schema(
 const User = model('Users', userSchema);
 
 module.exports = User;
-
-
 
 // dummy user model for mongodb
