@@ -12,6 +12,7 @@ const jwtKey =
 const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;
+const uploadDirectory = process.env.UPLOAD_DIRECTORY || 'public/images/users';
 
 module.exports = {
 	serverPort,
@@ -21,4 +22,5 @@ module.exports = {
 	smtpUserName,
 	smtpPassword,
 	clientUrl,
+	uploadDirectory,
 };

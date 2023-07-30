@@ -1,4 +1,5 @@
 const express = require('express');
+const upload = require('../middlewares/fileUpload');
 const {
 	getUsers,
 	getUserByID,
@@ -11,7 +12,7 @@ const userRouter = express.Router();
 // /api/users
 userRouter.get('/', getUsers);
 userRouter.get('/:id', getUserByID);
-userRouter.post('/register', registerUser);
+userRouter.post('/register', upload.single('image'), registerUser);
 userRouter.post('/verify', verifyUser);
 userRouter.delete('/:id', deleteUserByID);
 

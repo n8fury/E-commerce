@@ -129,6 +129,7 @@ const registerUser = async (req, res, next) => {
 		//send_email_with_nodemailer
 		try {
 			await emailWithNodemailer(emailData);
+			console.log(newUser);
 		} catch (error) {
 			next(createError(500, 'Failed to send email due to ', error));
 			return;
@@ -156,6 +157,7 @@ const verifyUser = async (req, res, next) => {
 			if (userExist) {
 				throw createError(409, 'User with this email already exists');
 			}
+			console.log(data);
 			await User.create(data);
 			return successResponse(res, {
 				statusCode: 201,
