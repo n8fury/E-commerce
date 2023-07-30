@@ -1,13 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const body_parser = require('body-parser');
-const isLoggedin = require('../middlewares/session');
 const createError = require('http-errors');
 const xssClean = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const userRouter = require('./routers/userRouter');
 const healthRouter = require('./routers/healthRouter');
-const productRouter = require('./routers/productRouter');
 const seedRouter = require('./routers/seedRouter');
 const { errorResponse } = require('./controllers/responseController');
 
@@ -31,7 +29,6 @@ app.use(body_parser.urlencoded({ extended: true }));
 //routes
 app.use('/api/health', healthRouter);
 app.use('/api/users', userRouter);
-app.use('/api/products', productRouter);
 app.use('/api/seed', seedRouter);
 
 //home route

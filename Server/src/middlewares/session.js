@@ -1,5 +1,5 @@
 const isLoggedin = (req, res, next) => {
-	const loggedin = true;
+	const loggedin = false;
 
 	if (loggedin) {
 		console.log('login middleware');
@@ -11,7 +11,6 @@ const isLoggedin = (req, res, next) => {
 	}
 };
 module.exports = isLoggedin;
-
 
 // created this middleware which checks if the user is loggedin or not
 // will have to work in this feature
