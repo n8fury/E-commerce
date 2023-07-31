@@ -13,6 +13,8 @@ const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;
 const uploadDirectory = process.env.UPLOAD_DIRECTORY || 'public/images/users';
+const maxFileSize = process.env.FILE_SIZE;
+const fileTypes = process.env.FILE_TYPES;
 
 module.exports = {
 	serverPort,
@@ -23,4 +25,6 @@ module.exports = {
 	smtpPassword,
 	clientUrl,
 	uploadDirectory,
+	maxFileSize,
+	fileTypes,
 };
