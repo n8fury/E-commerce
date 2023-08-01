@@ -153,7 +153,7 @@ const verifyUser = async (req, res, next) => {
 		try {
 			const data = jwt.verify(token, jwtKey);
 			if (!data) throw createError(401, 'unable to verify user');
-			const userExist = await User.exists(data.email);
+			const userExist = await User.exists({ email: data.email });
 			if (userExist) {
 				throw createError(409, 'User with this email already exists');
 			}

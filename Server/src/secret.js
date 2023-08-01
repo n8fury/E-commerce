@@ -13,7 +13,7 @@ const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;
 const uploadDirectory = process.env.UPLOAD_DIRECTORY || 'public/images/users';
-const maxFileSize = process.env.FILE_SIZE;
+const maxFileSize = Number(process.env.FILE_SIZE) || 1024 * 1024 * 2;
 const fileTypes = process.env.FILE_TYPES;
 
 module.exports = {
