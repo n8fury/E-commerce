@@ -31,8 +31,8 @@ const userSchema = new Schema(
 			minlength: [8, 'password must contain minimum of 8 character'],
 		},
 		image: {
-			type: String,
-			default: defaultImagePath,
+			type: Buffer,
+			contentType: String,
 		},
 		address: {
 			type: String,
