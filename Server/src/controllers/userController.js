@@ -93,17 +93,11 @@ const deleteUserByID = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
 	try {
 		const { name, email, password, phone, address } = req.body;
+		const imageBufferString = req.file.buffer.toString('base64');
 		const userExist = await User.exists({ email: email });
 		if (userExist) {
 			throw createError(409, 'User with this email already exists');
 		}
-		const newUser = {
-			name,
-			email,
-			password,
-			phone,
-			address,
-		};
 		//JWT
 		const token = createJsonWebToken(
 			{
@@ -112,6 +106,7 @@ const registerUser = async (req, res, next) => {
 				password,
 				phone,
 				address,
+				image: imageBufferString,
 			},
 			jwtKey,
 			'10m'
@@ -123,13 +118,11 @@ const registerUser = async (req, res, next) => {
 			html: `
 			<h2>Hello ${name}</h2>
 			<p>please click <a href="${clientUrl}/api/users/activate/${token}" target="_blank">Here</a> to activate your account</p>
-			
 			`,
 		};
 		//send_email_with_nodemailer
 		try {
-			await emailWithNodemailer(emailData);
-			console.log(newUser);
+			// await emailWithNodemailer(emailData);
 		} catch (error) {
 			next(createError(500, 'Failed to send email due to ', error));
 			return;
@@ -139,6 +132,7 @@ const registerUser = async (req, res, next) => {
 			message: `verification email sent at ${email},please click the attached link to verify`,
 			payload: {
 				token,
+				imageBufferString,
 			},
 		});
 	} catch (error) {
@@ -162,7 +156,6 @@ const verifyUser = async (req, res, next) => {
 			return successResponse(res, {
 				statusCode: 201,
 				message: `User created Successfully`,
-				payload: {},
 			});
 		} catch (error) {
 			if (error.name == 'TokenExpiredError') {

@@ -33,7 +33,14 @@ const userRegistrationValidator = [
 		.isLength({ min: 5 })
 		.withMessage('address should be at least 5 character Long'),
 	body('phone').trim().notEmpty().withMessage('phone is required'),
-	body('image').optional().isString().withMessage('phone is required'),
+	body('image')
+		.custom((value, { req }) => {
+			if (!req.file || !req.file.buffer) {
+				throw new Error('User image is required');
+			}
+			return true;
+		})
+		.withMessage('image is required'),
 ];
 
 module.exports = { userRegistrationValidator };
