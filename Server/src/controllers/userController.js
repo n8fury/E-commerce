@@ -93,7 +93,7 @@ const deleteUserByID = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
 	try {
 		const { name, email, password, phone, address } = req.body;
-		const imageBufferString = req.file.buffer.toString('base64');
+		const imageBufferString = req.file.buffer.toString('base64');//store user as buffer
 		const userExist = await User.exists({ email: email });
 		if (userExist) {
 			throw createError(409, 'User with this email already exists');

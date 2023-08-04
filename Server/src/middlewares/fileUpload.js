@@ -1,6 +1,6 @@
 const multer = require('multer');
 const { fileTypes, maxFileSize } = require('../secret');
-const storage = multer.memoryStorage();
+const storage = multer.memoryStorage(); //store image in memory
 const fileFilter = (req, file, cb) => {
 	if (!file.mimetype.startsWith('image/')) {
 		return cb(new Error('only image files are allowed'), false);
