@@ -9,6 +9,12 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
   - [Introduction](#introduction)
   - [Installation](#installation)
   - [Usage](#usage)
+    - [Endpoints](#endpoints)
+    - [1. `GET /api/users`](#1-get-apiusers)
+    - [2. `GET /api/users/:id`](#2-get-apiusersid)
+    - [3. `POST /api/users/register`](#3-post-apiusersregister)
+    - [4. `POST /api/users/verify`](#4-post-apiusersverify)
+    - [5. `DELETE /api/users/:id`](#5-delete-apiusersid)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -34,6 +40,33 @@ To set up the project on your local machine, follow these steps:
 5. Start the server:
 
 ## Usage
+
+### Endpoints
+
+### 1. `GET /api/users`
+
+- Description: Get a list of all users.
+- Usage: This endpoint allows you to retrieve a list of all users registered in the system.
+
+### 2. `GET /api/users/:id`
+
+- Description: Get a user by ID.
+- Usage: This endpoint allows you to retrieve a specific user's details based on their unique ID.
+
+### 3. `POST /api/users/register`
+
+- Description: Register a new user.
+- Usage: This endpoint allows users to register in the system. It requires a username, email, password, and optional image upload for the user profile.
+
+### 4. `POST /api/users/verify`
+
+- Description: Verify user registration.
+- Usage: This endpoint allows users to verify their registration by confirming their email address.
+
+### 5. `DELETE /api/users/:id`
+
+- Description: Delete a user by ID.
+- Usage: This endpoint allows you to delete a specific user from the system based on their unique ID.
 
 Once the server is running, you can access the e-commerce application by navigating to `http://localhost:3000` in your web browser.
 
