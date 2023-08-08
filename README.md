@@ -41,6 +41,10 @@ To set up the project on your local machine, follow these steps:
 
 ## Usage
 
+Once the server is running, you can access the e-commerce application by navigating to `http://localhost:3000` in your web browser.
+
+Here are the main endpoints and functionalities of the application:
+
 ### Endpoints
 
 ### 1. `GET /api/users`
