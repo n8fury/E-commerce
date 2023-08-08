@@ -33,9 +33,11 @@ To set up the project on your local machine, follow these steps:
 3. Install the required dependencies using npm: `npm install`
 
 4. Set up the environment variables. You will need to create a `.env` file in the root directory of the project and configure the following variables:
-    `PORT= # The port on which the server will run (default is 3000)
+
+    ```
+    PORT= # The port on which the server will run (default is 3000)
     DATABASE_URL=... # The URL of your MongoDB database
-    JWT_SECRET=... # Secret key for JWT authentication`
+    JWT_SECRET=... # Secret key for JWT authentication```
 
 5. Start the server:
 
