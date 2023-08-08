@@ -13,7 +13,7 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [1. `GET /api/users`](#1-get-apiusers)
     - [2. `GET /api/users/:id`](#2-get-apiusersid)
     - [3. `POST /api/users/register`](#3-post-apiusersregister)
-    - [4. `POST /api/users/verify`](#4-post-apiusersverify)
+    - [4. `POST /api/users/activate`](#4-post-apiusersactivate)
     - [5. `DELETE /api/users/:id`](#5-delete-apiusersid)
   - [Contributing](#contributing)
   - [License](#license)
@@ -64,9 +64,9 @@ Here are the main endpoints and functionalities of the application:
 - Description: Register a new user.
 - Usage: This endpoint allows users to register in the system. It requires a username, email, password, and optional image upload for the user profile.
 
-### 4. `POST /api/users/verify`
+### 4. `POST /api/users/activate`
 
-- Description: Verify user registration.
+- Description: Verify user registration and activate user account.
 - Usage: This endpoint allows users to verify their registration by confirming their email address.
 
 ### 5. `DELETE /api/users/:id`

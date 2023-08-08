@@ -5,15 +5,14 @@ const {
 	getUserByID,
 	deleteUserByID,
 	registerUser,
-	verifyUser,
+	activateUserAccount,
+	updateUserByID,
 } = require('../controllers/userController');
 const { userRegistrationValidator } = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
 const userRouter = express.Router();
 
 // /api/users
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserByID);
 userRouter.post(
 	'/register',
 	upload.single('image'),
@@ -21,7 +20,10 @@ userRouter.post(
 	runValidation,
 	registerUser
 );
-userRouter.post('/verify', verifyUser);
+userRouter.post('/activate', activateUserAccount);
+userRouter.get('/', getUsers);
+userRouter.get('/:id', getUserByID);
 userRouter.delete('/:id', deleteUserByID);
+userRouter.put('/:id', updateUserByID);
 
 module.exports = userRouter;

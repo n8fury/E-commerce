@@ -93,7 +93,7 @@ const deleteUserByID = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
 	try {
 		const { name, email, password, phone, address } = req.body;
-		const imageBufferString = req.file.buffer.toString('base64');//store user as buffer
+		const imageBufferString = req.file.buffer.toString('base64'); //store user as buffer
 		const userExist = await User.exists({ email: email });
 		if (userExist) {
 			throw createError(409, 'User with this email already exists');
@@ -140,7 +140,7 @@ const registerUser = async (req, res, next) => {
 	}
 };
 
-const verifyUser = async (req, res, next) => {
+const activateUserAccount = async (req, res, next) => {
 	try {
 		const token = req.body.token;
 		if (!token) throw createError(404, 'Token not found');
@@ -170,13 +170,24 @@ const verifyUser = async (req, res, next) => {
 		next(error);
 	}
 };
+const updateUserByID = async (req, res, next) => {
+	try {
+		return successResponse(res, {
+			statusCode: 201,
+			message: `User created Successfully`,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
 
 module.exports = {
 	getUsers,
 	getUserByID,
 	deleteUserByID,
 	registerUser,
-	verifyUser,
+	activateUserAccount,
+	updateUserByID,
 };
 
 // user controller
