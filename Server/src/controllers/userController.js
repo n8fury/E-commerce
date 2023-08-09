@@ -203,6 +203,8 @@ const updateUserByID = async (req, res, next) => {
 		for (let key in req.body) {
 			if (['name', 'passwords', 'phone', 'address'].includes(key)) {
 				updates[key] = req.body[key];
+			} else if (['email'].includes(key)) {
+				throw createError(400, 'email cannot be updated');
 			}
 		}
 		if (image) {
@@ -215,7 +217,7 @@ const updateUserByID = async (req, res, next) => {
 			userId,
 			updates,
 			updateOptions
-		);
+		).select('-password');
 		if (!updatedUser) {
 			throw createError(404, 'user with this id does not exists');
 		}
