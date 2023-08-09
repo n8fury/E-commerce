@@ -93,7 +93,17 @@ const deleteUserByID = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
 	try {
 		const { name, email, password, phone, address } = req.body;
-		const imageBufferString = req.file.buffer.toString('base64'); //store user as buffer
+		const image = req.file;
+		if (!image) {
+			throw Error(400, 'Image file is required');
+		}
+		if (image) {
+			if (image.size > 1024 * 1024 * 2) {
+				throw createError(404, 'image size exceeded.Must be less than 2 MB');
+			}
+		}
+
+		const imageBufferString = image.buffer.toString('base64'); //store user as buffer
 		const userExist = await User.exists({ email: email });
 		if (userExist) {
 			throw createError(409, 'User with this email already exists');
@@ -122,7 +132,7 @@ const registerUser = async (req, res, next) => {
 		};
 		//send_email_with_nodemailer
 		try {
-			// await emailWithNodemailer(emailData);
+			await emailWithNodemailer(emailData);
 		} catch (error) {
 			next(createError(500, 'Failed to send email due to ', error));
 			return;
@@ -172,15 +182,54 @@ const activateUserAccount = async (req, res, next) => {
 };
 const updateUserByID = async (req, res, next) => {
 	try {
+		const userId = req.params.id;
+		const options = { password: 0 };
+		await findById(User, userId, options);
+		const updateOptions = { new: true, runValidators: true, context: 'query' }; // runValidators is used to update user data according to validators
+		const image = req.file;
+		let updates = {};
+		// if (req.body.name) {
+		// 	updates.name = req.body.name;
+		// }
+		// if (req.body.password) {
+		// 	updates.password = req.body.password;
+		// }
+		// if (req.body.phone) {
+		// 	updates.phone = req.body.phone;
+		// }
+		// if (req.body.address) {
+		// 	updates.address = req.body.address;
+		// }// these if cases are done by the for loop
+		for (let key in req.body) {
+			if (['name', 'passwords', 'phone', 'address'].includes(key)) {
+				updates[key] = req.body[key];
+			}
+		}
+		if (image) {
+			if (image.size > 1024 * 1024 * 2) {
+				throw createError(404, 'image size exceeded.Must be less than 2 MB');
+			}
+			updates.image = image.buffer.toString('base64');
+		}
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			updates,
+			updateOptions
+		);
+		if (!updatedUser) {
+			throw createError(404, 'user with this id does not exists');
+		}
 		return successResponse(res, {
-			statusCode: 201,
-			message: `User created Successfully`,
+			statusCode: 200,
+			message: `User updated Successfully`,
+			payload: {
+				updatedUser,
+			},
 		});
 	} catch (error) {
 		next(error);
 	}
 };
-
 module.exports = {
 	getUsers,
 	getUserByID,

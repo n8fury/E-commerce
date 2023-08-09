@@ -24,6 +24,6 @@ userRouter.post('/activate', activateUserAccount);
 userRouter.get('/', getUsers);
 userRouter.get('/:id', getUserByID);
 userRouter.delete('/:id', deleteUserByID);
-userRouter.put('/:id', updateUserByID);
+userRouter.put('/:id', upload.single('image'), updateUserByID);
 
 module.exports = userRouter;
