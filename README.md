@@ -15,6 +15,7 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [3. `POST /api/users/register`](#3-post-apiusersregister)
     - [4. `POST /api/users/activate`](#4-post-apiusersactivate)
     - [5. `DELETE /api/users/:id`](#5-delete-apiusersid)
+    - [6. `PUT /api/users/:id`](#6-put-apiusersid)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -37,7 +38,8 @@ To set up the project on your local machine, follow these steps:
     ```
     PORT= # The port on which the server will run (default is 3000)
     DATABASE_URL=... # The URL of your MongoDB database
-    JWT_SECRET=... # Secret key for JWT authentication```
+    JWT_SECRET=... # Secret key for JWT authentication
+    ```
 
 5. Start the server:
 
@@ -74,7 +76,14 @@ Here are the main endpoints and functionalities of the application:
 - Description: Delete a user by ID.
 - Usage: This endpoint allows you to delete a specific user from the system based on their unique ID.
 
-Once the server is running, you can access the e-commerce application by navigating to `http://localhost:3000` in your web browser.
+### 6. `PUT /api/users/:id`
+
+- Description: Update user by ID.
+- Usage: This endpoint allows you to update a specific user's details based on their unique ID. It accepts new data, including an optional image upload for the user profile.
+
+</br>
+Once the server is running, you can access the e-commerce application by navigating to `
+http://localhost:3000` in your web browser.
 
 Here are the main endpoints and functionalities of the application:
 
