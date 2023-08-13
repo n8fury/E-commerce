@@ -1,5 +1,26 @@
+const User = require('../models/userModel');
+const createError = require('http-errors');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { createJsonWebToken } = require('../helper/JsonWebToken');
+const { successResponse } = require('./responseController');
+
 const userLogin = async (req, res, next) => {
 	try {
+		const { email, password } = req.body; // email and pass should be from req.body
+		const user = await User.findOne({ email });
+		if (!user) {
+			throw createError(
+				404,
+				'Could not find user associated with this email.Please register'
+			);
+		} //userExist
+		//password hash matching
+		const isPasswordMatch = await bcrypt.compare(password, user.password);
+		if (!isPasswordMatch) {
+			throw createError(401, `Email or password didn't match`);
+		}
+
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User login Successful',
@@ -10,3 +31,10 @@ const userLogin = async (req, res, next) => {
 };
 
 module.exports = { userLogin };
+
+/*TODO:		 we have to check the email and the pass is present on the db or not (userExist)
+        email and pass should be from req.body
+        for pass we have to match the hash
+        also we have to check if the user is banned or not
+        we'll also use access token and store the token inside cookie
+        */
