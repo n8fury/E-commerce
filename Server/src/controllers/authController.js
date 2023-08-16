@@ -9,16 +9,21 @@ const userLogin = async (req, res, next) => {
 	try {
 		const { email, password } = req.body; // email and pass should be from req.body
 		const user = await User.findOne({ email });
+		//userExist
 		if (!user) {
 			throw createError(
 				404,
 				'Could not find user associated with this email.Please register'
 			);
-		} //userExist
+		}
 		//password hash matching
 		const isPasswordMatch = await bcrypt.compare(password, user.password);
 		if (!isPasswordMatch) {
 			throw createError(401, `Email or password didn't match`);
+		}
+		//isBanned
+		if (user.isBanned) {
+			throw createError(403, 'This id is banned. Contact Support');
 		}
 
 		return successResponse(res, {
