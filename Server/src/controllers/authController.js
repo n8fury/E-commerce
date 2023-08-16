@@ -40,7 +40,7 @@ const userLogin = async (req, res, next) => {
 			statusCode: 200,
 			message: 'User login Successful',
 			payload: {
-				user
+				user,
 			},
 		});
 	} catch (error) {
@@ -50,7 +50,7 @@ const userLogin = async (req, res, next) => {
 
 module.exports = { userLogin };
 
-/*TODO:		 we have to check the email and the pass is present on the db or not (userExist)
+/*EXPLANATION	 we have to check the email and the pass is present on the db or not (userExist)
         email and pass should be from req.body
         for pass we have to match the hash
         also we have to check if the user is banned or not
