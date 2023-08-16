@@ -7,8 +7,12 @@ const defaultImagePath =
 	process.env.DEFAULT_USER_IMAGE_PATH ||
 	'public/images/users/default_image.jpg';
 
-const jwtKey =
-	process.env.JWT_SECRET_KEY || 'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
+const jwtUserRegistrationKey =
+	process.env.JWT_USER_REGISTRATION_KEY ||
+	'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
+const jwtUserLoginKey =
+	process.env.JWT_USER_LOGIN_KEY ||
+	'Ertyuiop!@$dfhjkcvbnm65sdsadw223ggfjkkjtrtwErt';
 const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;
@@ -26,11 +30,12 @@ module.exports = {
 	serverPort,
 	mongodbUrl,
 	defaultImagePath,
-	jwtKey,
+	jwtUserRegistrationKey,
 	smtpUserName,
 	smtpPassword,
 	clientUrl,
 	uploadDirectory,
 	maxFileSize,
 	fileTypes,
+	jwtUserLoginKey,
 };

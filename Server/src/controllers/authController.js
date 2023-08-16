@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { jwtUserLoginKey } = require('../secret');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { successResponse } = require('./responseController');
 
@@ -25,10 +26,22 @@ const userLogin = async (req, res, next) => {
 		if (user.isBanned) {
 			throw createError(403, 'This id is banned. Contact Support');
 		}
+		//create_jwt
+		const loginToken = createJsonWebToken({ email }, jwtUserLoginKey, '10m');
+		//cookie
+		res.cookie('login_token', loginToken, {
+			maxAge: 10 * 60 * 1000, //10 minutes
+			httpOnly: true,
+			secure: true,
+			sameSite: 'none',
+		});
 
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User login Successful',
+			payload: {
+				user
+			},
 		});
 	} catch (error) {
 		next(error);

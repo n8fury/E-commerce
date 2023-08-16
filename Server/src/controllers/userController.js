@@ -5,7 +5,7 @@ const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
-const { jwtKey, clientUrl } = require('../secret');
+const { jwtUserRegistrationKey, clientUrl } = require('../secret');
 const emailWithNodemailer = require('../helper/emailHelper');
 
 const getUsers = async (req, res, next) => {
@@ -118,7 +118,7 @@ const registerUser = async (req, res, next) => {
 				address,
 				image: imageBufferString,
 			},
-			jwtKey,
+			jwtUserRegistrationKey,
 			'10m'
 		);
 		//email_preparation
