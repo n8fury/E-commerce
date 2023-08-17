@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const body_parser = require('body-parser');
 const createError = require('http-errors');
@@ -18,6 +19,7 @@ const rateLimiter = rateLimit({
 	message: 'request limit expired',
 });
 
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(xssClean());
 app.use(rateLimiter);

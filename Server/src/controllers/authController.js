@@ -38,7 +38,7 @@ const userLogin = async (req, res, next) => {
 
 		return successResponse(res, {
 			statusCode: 200,
-			message: 'User login Successful',
+			message: 'User loggedIn Successful',
 			payload: {
 				user,
 			},
@@ -48,11 +48,24 @@ const userLogin = async (req, res, next) => {
 	}
 };
 
-module.exports = { userLogin };
-
 /*EXPLANATION	 we have to check the email and the pass is present on the db or not (userExist)
         email and pass should be from req.body
         for pass we have to match the hash
         also we have to check if the user is banned or not
         we'll also use access token and store the token inside cookie
         */
+
+const userLogout = async (req, res, next) => {
+	try {
+		//clear cookie
+		res.clearCookie('login_token');
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'User loggedOut Successful',
+			payload: {},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+module.exports = { userLogin, userLogout };
