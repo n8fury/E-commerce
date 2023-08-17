@@ -16,6 +16,7 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [4. `POST /api/users/activate`](#4-post-apiusersactivate)
     - [5. `DELETE /api/users/:id`](#5-delete-apiusersid)
     - [6. `PUT /api/users/:id`](#6-put-apiusersid)
+    - [7. `POST /api/auth/login`](#7-post-apiauthlogin)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -80,6 +81,11 @@ Here are the main endpoints and functionalities of the application:
 
 - Description: Update user by ID.
 - Usage: This endpoint allows you to update a specific user's details based on their unique ID. It accepts new data, including an optional image upload for the user profile.
+
+### 7. `POST /api/auth/login`
+
+- Description: User login.
+- Usage: This endpoint allows users to log in to the system. It requires a username/email and password for authentication.
 
 </br>
 Once the server is running, you can access the e-commerce application by navigating to `
