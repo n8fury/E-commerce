@@ -9,7 +9,7 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
   - [Introduction](#introduction)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [Endpoints](#endpoints)
+  - [Endpoints](#endpoints)
     - [1. `GET /api/users`](#1-get-apiusers)
     - [2. `GET /api/users/:id`](#2-get-apiusersid)
     - [3. `POST /api/users/register`](#3-post-apiusersregister)
@@ -18,6 +18,9 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [6. `PUT /api/users/:id`](#6-put-apiusersid)
     - [7. `POST /api/auth/login`](#7-post-apiauthlogin)
     - [8. `POST /api/auth/logout`](#8-post-apiauthlogout)
+  - [Middlewares](#middlewares)
+    - [1. `fileupload`](#1-fileupload)
+    - [2. `isLoggedin`](#2-isloggedin)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -51,7 +54,7 @@ Once the server is running, you can access the e-commerce application by navigat
 
 Here are the main endpoints and functionalities of the application:
 
-### Endpoints
+## Endpoints
 
 ### 1. `GET /api/users`
 
@@ -94,10 +97,20 @@ Here are the main endpoints and functionalities of the application:
 - Usage: This endpoint allows users to log out from the system.
 
 </br>
-Once the server is running, you can access the e-commerce application by navigating to `
-http://localhost:3000` in your web browser.
 
-Here are the main endpoints and functionalities of the application:
+## Middlewares
+
+### 1. `fileupload`
+
+- Description: This middleware utilizes `multer` for handling file uploads, such as user profile images.
+- Usage: It intercepts requests that include file uploads and processes them, saving the files to the appropriate destination on the server.
+
+### 2. `isLoggedin`
+
+- Description: This middleware checks if a user is logged in before allowing access to specific routes.
+- Usage: It can be applied to routes that require authentication. If the user is authenticated, the middleware allows access; otherwise, it may redirect to a login page or return an appropriate error response.
+
+</br>
 
 Feel free to explore the codebase and customize the application to suit your needs!
 
