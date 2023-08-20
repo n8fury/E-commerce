@@ -1,5 +1,5 @@
 const express = require('express');
-const upload = require('../middlewares/fileUpload');
+const fileUpload = require('../middlewares/fileUpload');
 const {
 	getUsers,
 	getUserByID,
@@ -15,7 +15,7 @@ const userRouter = express.Router();
 // /api/users
 userRouter.post(
 	'/register',
-	upload.single('image'),
+	fileUpload.single('image'),
 	userRegistrationValidator,
 	runValidation,
 	registerUser
@@ -24,6 +24,6 @@ userRouter.post('/activate', activateUserAccount);
 userRouter.get('/', getUsers);
 userRouter.get('/:id', getUserByID);
 userRouter.delete('/:id', deleteUserByID);
-userRouter.put('/:id', upload.single('image'), updateUserByID);
+userRouter.put('/:id', fileUpload.single('image'), updateUserByID);
 
 module.exports = userRouter;
