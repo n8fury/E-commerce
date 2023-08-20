@@ -1,13 +1,19 @@
-const isLoggedin = (req, res, next) => {
-	const loggedin = false;
-
-	if (loggedin) {
-		console.log('login middleware');
+const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
+const isLoggedin = async (req, res, next) => {
+	try {
+		const token = req.cookies.loginToken;
+		if (!token) {
+			throw createError(401, 'Access Token not found');
+		}
+		const decode = jwt.verify(token, jwtUserLoginKey);
+		if (!decode) {
+			throw createError(401, 'Invalid Access Token,Please Login');
+		}
+		req.body.userId = decode._id;
 		next();
-	} else {
-		return res.status(401).send({
-			message: 'Unauthorized',
-		});
+	} catch (error) {
+		return next(error);
 	}
 };
 module.exports = isLoggedin;

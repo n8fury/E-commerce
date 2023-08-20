@@ -10,6 +10,7 @@ const {
 } = require('../controllers/userController');
 const { userRegistrationValidator } = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
+const isLoggedin = require('../middlewares/session');
 const userRouter = express.Router();
 
 // /api/users
@@ -21,9 +22,9 @@ userRouter.post(
 	registerUser
 );
 userRouter.post('/activate', activateUserAccount);
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserByID);
-userRouter.delete('/:id', deleteUserByID);
-userRouter.put('/:id', fileUpload.single('image'), updateUserByID);
+userRouter.get('/', isLoggedin, getUsers);
+userRouter.get('/:id', isLoggedin, getUserByID);
+userRouter.delete('/:id', isLoggedin, deleteUserByID);
+userRouter.put('/:id', fileUpload.single('image'), isLoggedin, updateUserByID);
 
 module.exports = userRouter;
