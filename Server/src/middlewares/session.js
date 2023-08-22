@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const isLoggedin = async (req, res, next) => {
+const isLoggedIn = async (req, res, next) => {
 	try {
 		const token = req.cookies.loginToken;
 		if (!token) {
@@ -16,7 +16,19 @@ const isLoggedin = async (req, res, next) => {
 		return next(error);
 	}
 };
-module.exports = isLoggedin;
+const isLoggedOut = async (req, res, next) => {
+	try {
+		const token = req.cookies.token;
+		if (token) {
+			throw createError(400, 'User is logged in already');
+		}
+		next();
+	} catch (error) {
+		return next(error);
+	}
+};
+
+module.exports = { isLoggedIn, isLoggedOut };
 
 // created this middleware which checks if the user is loggedin or not
 // will have to work in this feature
