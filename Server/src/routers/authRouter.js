@@ -1,7 +1,7 @@
 const express = require('express');
 const { runValidation } = require('../validators/validator_runner');
 const { userLogin, userLogout } = require('../controllers/authController');
-const { isLoggedIn, isLoggedOut } = require('../middlewares/session');
+const { isLoggedIn, isLoggedOut } = require('../middlewares/authentication');
 const authRouter = express.Router();
 
 // /api/auth

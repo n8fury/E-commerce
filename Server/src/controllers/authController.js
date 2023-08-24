@@ -27,11 +27,7 @@ const userLogin = async (req, res, next) => {
 			throw createError(403, 'This id is banned. Contact Support');
 		}
 		//create_jwt
-		const loginToken = createJsonWebToken(
-			{ _id: user._id },
-			jwtUserLoginKey,
-			'10m'
-		);
+		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '10m');
 		//cookie
 		res.cookie('loginToken', loginToken, {
 			maxAge: 10 * 60 * 1000, //10 minutes
@@ -50,14 +46,13 @@ const userLogin = async (req, res, next) => {
 	} catch (error) {
 		next(error);
 	}
-};
-
-/*EXPLANATION	 we have to check the email and the pass is present on the db or not (userExist)
+	/*EXPLANATION	 we have to check the email and the pass is present on the db or not (userExist)
         email and pass should be from req.body
         for pass we have to match the hash
         also we have to check if the user is banned or not
         we'll also use access token and store the token inside cookie
         */
+};
 
 const userLogout = async (req, res, next) => {
 	try {

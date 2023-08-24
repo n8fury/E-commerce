@@ -10,7 +10,11 @@ const {
 } = require('../controllers/userController');
 const { userRegistrationValidator } = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
-const { isLoggedIn, isLoggedOut } = require('../middlewares/session');
+const {
+	isLoggedIn,
+	isAdmin,
+	isLoggedOut,
+} = require('../middlewares/authentication');
 const userRouter = express.Router();
 
 // /api/users
@@ -18,11 +22,12 @@ userRouter.post(
 	'/register',
 	fileUpload.single('image'),
 	userRegistrationValidator,
+	isLoggedOut,
 	runValidation,
 	registerUser
 );
-userRouter.post('/activate', activateUserAccount);
-userRouter.get('/', isLoggedIn, getUsers);
+userRouter.post('/activate', isLoggedOut, activateUserAccount);
+userRouter.get('/', isLoggedIn, isAdmin, getUsers);
 userRouter.get('/:id', isLoggedIn, getUserByID);
 userRouter.delete('/:id', isLoggedIn, deleteUserByID);
 userRouter.put('/:id', fileUpload.single('image'), isLoggedIn, updateUserByID);
