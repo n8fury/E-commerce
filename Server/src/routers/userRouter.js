@@ -15,6 +15,7 @@ const {
 	isAdmin,
 	isLoggedOut,
 } = require('../middlewares/authentication');
+
 const userRouter = express.Router();
 
 // /api/users

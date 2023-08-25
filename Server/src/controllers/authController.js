@@ -1,7 +1,6 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { jwtUserLoginKey } = require('../secret');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { successResponse } = require('./responseController');
@@ -30,7 +29,7 @@ const userLogin = async (req, res, next) => {
 		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '15m');
 		//cookie
 		res.cookie('loginToken', loginToken, {
-			maxAge: 15 * 60 * 1000, //10 minutes
+			maxAge: 15 * 60 * 1000, //15 minutes
 			httpOnly: true,
 			secure: true,
 			sameSite: 'none',
@@ -57,7 +56,7 @@ const userLogin = async (req, res, next) => {
 const userLogout = async (req, res, next) => {
 	try {
 		//clear cookie
-		res.clearCookie('login_token');
+		res.clearCookie('loginToken');
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User loggedOut Successful',

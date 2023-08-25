@@ -59,4 +59,4 @@ const User = model('Users', userSchema);
 
 module.exports = User;
 
-// dummy user model for mongodb
+// user model for mongodb

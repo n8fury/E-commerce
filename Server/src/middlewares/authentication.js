@@ -1,10 +1,9 @@
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const jwtUserLoginKey = require('../secret');
+const { jwtUserLoginKey } = require('../secret');
 const isLoggedIn = async (req, res, next) => {
 	try {
 		const token = req.cookies.loginToken;
-		console.log(token);
 		if (!token) {
 			throw createError(401, 'Access Token not found');
 		}

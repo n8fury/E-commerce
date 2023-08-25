@@ -12,7 +12,7 @@ const jwtUserRegistrationKey =
 	'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
 const jwtUserLoginKey =
 	process.env.JWT_USER_LOGIN_KEY ||
-	'Ertyuiop!@$dfhjkcvbnm65sdsadw223ggfjkkjtrtwErt';
+	'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
 const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;

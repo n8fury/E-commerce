@@ -16,7 +16,7 @@ const getUsers = async (req, res, next) => {
 		const searchRegExp = new RegExp('.*' + search + '.*', 'i'); // search regex
 		const filter = {
 			isAdmin: {
-				$ne: true,
+				$ne: true,//admins will not be present in the search
 			},
 			$or: [
 				{ name: { $regex: searchRegExp } },
