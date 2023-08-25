@@ -155,13 +155,12 @@ const activateUserAccount = async (req, res, next) => {
 		const token = req.body.token;
 		if (!token) throw createError(404, 'Token not found');
 		try {
-			const data = jwt.verify(token, jwtKey);
+			const data = jwt.verify(token, jwtUserRegistrationKey);
 			if (!data) throw createError(401, 'unable to verify user');
 			const userExist = await User.exists({ email: data.email });
 			if (userExist) {
 				throw createError(409, 'User with this email already exists');
 			}
-			console.log(data);
 			await User.create(data);
 			return successResponse(res, {
 				statusCode: 201,

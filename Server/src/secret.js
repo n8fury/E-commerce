@@ -31,11 +31,11 @@ module.exports = {
 	mongodbUrl,
 	defaultImagePath,
 	jwtUserRegistrationKey,
+	jwtUserLoginKey,
 	smtpUserName,
 	smtpPassword,
 	clientUrl,
 	uploadDirectory,
 	maxFileSize,
 	fileTypes,
-	jwtUserLoginKey,
 };

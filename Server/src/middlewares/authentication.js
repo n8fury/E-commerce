@@ -4,10 +4,12 @@ const jwtUserLoginKey = require('../secret');
 const isLoggedIn = async (req, res, next) => {
 	try {
 		const token = req.cookies.loginToken;
+		console.log(token);
 		if (!token) {
 			throw createError(401, 'Access Token not found');
-		}	
+		}
 		const decode = jwt.verify(token, jwtUserLoginKey);
+
 		if (!decode) {
 			throw createError(401, 'Invalid Access Token,Please Login');
 		}
@@ -30,7 +32,7 @@ const isLoggedOut = async (req, res, next) => {
 };
 const isAdmin = async (req, res, next) => {
 	try {
-		if (!req.body.isAdmin) {
+		if (!req.user.isAdmin) {
 			throw createError(403, 'Forbidden Access. You must be an Admin');
 		}
 		next();

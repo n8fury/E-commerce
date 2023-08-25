@@ -27,10 +27,10 @@ const userLogin = async (req, res, next) => {
 			throw createError(403, 'This id is banned. Contact Support');
 		}
 		//create_jwt
-		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '10m');
+		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '15m');
 		//cookie
 		res.cookie('loginToken', loginToken, {
-			maxAge: 10 * 60 * 1000, //10 minutes
+			maxAge: 15 * 60 * 1000, //10 minutes
 			httpOnly: true,
 			secure: true,
 			sameSite: 'none',
