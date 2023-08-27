@@ -19,9 +19,10 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [7. `POST /api/auth/login`](#7-post-apiauthlogin)
     - [8. `POST /api/auth/logout`](#8-post-apiauthlogout)
   - [Middlewares](#middlewares)
-    - [1. `fileupload` Middleware](#1-fileupload-middleware)
+    - [1. `fileUpload` Middleware](#1-fileupload-middleware)
     - [2. `isLoggedin` Middleware](#2-isloggedin-middleware)
     - [3. `isLoggedOut` Middleware](#3-isloggedout-middleware)
+    - [4. `isAdmin` Middleware](#4-isadmin-middleware)
   - [Contributing](#contributing)
   - [License](#license)
 
@@ -101,7 +102,7 @@ Here are the main endpoints and functionalities of the application:
 
 ## Middlewares
 
-### 1. `fileupload` Middleware
+### 1. `fileUpload` Middleware
 
 - Description: This middleware utilizes `multer` for handling file uploads, such as user profile images.
 - Usage: It intercepts requests that include file uploads and processes them, saving the files to the appropriate destination on the server.
@@ -116,6 +117,10 @@ Here are the main endpoints and functionalities of the application:
 - Description: This middleware checks if a user is logged out before allowing access to certain routes.
 - Usage: It can be applied to routes that should only be accessible to non-logged-in users. If the user is not authenticated, the middleware allows access; otherwise, it may redirect to a different page or return an appropriate error response.
 
+### 4. `isAdmin` Middleware
+
+- Description: This middleware checks if a logged-in user has administrative privileges.
+- Usage: It can be applied to routes that are restricted to administrators. If the user is an administrator, the middleware allows access; otherwise, it may redirect to a different page or return an appropriate error response.
 
 </br>
 
