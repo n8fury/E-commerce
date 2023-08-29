@@ -34,12 +34,12 @@ const userLogin = async (req, res, next) => {
 			secure: true,
 			sameSite: 'none',
 		});
-
+		const secureUser = await User.findOne({ email }).select('-password');
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User loggedIn Successful',
 			payload: {
-				user,
+				secureUser,
 			},
 		});
 	} catch (error) {
