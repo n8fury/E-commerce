@@ -32,5 +32,6 @@ userRouter.get('/', isLoggedIn, isAdmin, getUsers);
 userRouter.get('/:id', isLoggedIn, getUserByID);
 userRouter.delete('/:id', isLoggedIn, deleteUserByID);
 userRouter.put('/:id', fileUpload.single('image'), isLoggedIn, updateUserByID);
+userRouter.put('/ban-user', isLoggedIn, isAdmin);
 
 module.exports = userRouter;
