@@ -233,6 +233,22 @@ const updateUserByID = async (req, res, next) => {
 };
 const banUser = async (req, res, next) => {
 	try {
+		const userId = req.params.id;
+		await findById(User, userId);
+		const updateOptions = {
+			new: true,
+			runValidators: true,
+			context: 'query',
+		};
+		const updates = { isBanned: true };
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			updates,
+			updateOptions
+		).select('-password');
+		if (!updatedUser) {
+			throw createError(404, 'user with this id does not exists');
+		}
 		return successResponse(res, {
 			statusCode: 200,
 			message: `User banned Successfully`,
