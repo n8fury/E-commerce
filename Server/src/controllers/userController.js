@@ -231,7 +231,7 @@ const updateUserByID = async (req, res, next) => {
 		next(error);
 	}
 };
-const banUser = async (req, res, next) => {
+const banUserByID = async (req, res, next) => {
 	try {
 		const userId = req.params.id;
 		await findById(User, userId);
@@ -257,7 +257,7 @@ const banUser = async (req, res, next) => {
 		next(error);
 	}
 };
-const unBanUser = async (req, res, next) => {
+const unBanUserByID = async (req, res, next) => {
 	try {
 		const userId = req.params.id;
 		await findById(User, userId);
@@ -290,8 +290,8 @@ module.exports = {
 	registerUser,
 	activateUserAccount,
 	updateUserByID,
-	banUser,
-	unBanUser,
+	banUserByID,
+	unBanUserByID,
 };
 
 // user controller
