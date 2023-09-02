@@ -9,6 +9,7 @@ const {
 	updateUserByID,
 	banUserByID,
 	unBanUserByID,
+	updatePassword,
 } = require('../controllers/userController');
 const { userRegistrationValidator } = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
@@ -36,5 +37,7 @@ userRouter.delete('/:id', isLoggedIn, deleteUserByID);
 userRouter.put('/:id', fileUpload.single('image'), isLoggedIn, updateUserByID);
 userRouter.put('/ban-user/:id', isLoggedIn, isAdmin, banUserByID);
 userRouter.put('/unban-user/:id', isLoggedIn, isAdmin, unBanUserByID);
+
+userRouter.put('/update-password/:id', isLoggedIn, updatePassword);
 
 module.exports = userRouter;

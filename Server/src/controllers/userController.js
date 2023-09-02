@@ -283,6 +283,16 @@ const unBanUserByID = async (req, res, next) => {
 		next(error);
 	}
 };
+const updatePassword = async (req, res, next) => {
+	try {
+		return successResponse(res, {
+			statusCode: 200,
+			message: `User's Password  updated Successfully`,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
 module.exports = {
 	getUsers,
 	getUserByID,
@@ -292,6 +302,7 @@ module.exports = {
 	updateUserByID,
 	banUserByID,
 	unBanUserByID,
+	updatePassword,
 };
 
 // user controller
