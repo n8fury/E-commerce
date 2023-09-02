@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
@@ -283,11 +284,39 @@ const unBanUserByID = async (req, res, next) => {
 		next(error);
 	}
 };
-const updatePassword = async (req, res, next) => {
+const updatePasswordByID = async (req, res, next) => {
 	try {
+		const { email, currentPassword, newPassword, confirmPassword } = req.body;
+		// const user = await User.findOne({ email });
+		// const userId = user.id;
+		const userId = req.params.id;
+		const user = await findById(User, userID);
+		//password hash matching
+		const isPasswordMatch = await bcrypt.compare(
+			currentPassword,
+			user.password
+		);
+		if (!isPasswordMatch) {
+			throw createError(401, `Email or password didn't match`);
+		}
+		if (newPassword != confirmPassword) {
+			throw createError(400, `passwords do not match`);
+		}
+		const filter = { userId };
+		const updates = { $set: { password: newPassword } };
+		const updateOptions = { new: true };
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			updates,
+			updateOptions
+		).select('-password');
+
 		return successResponse(res, {
 			statusCode: 200,
 			message: `User's Password  updated Successfully`,
+			payload: {
+				updatedUser,
+			},
 		});
 	} catch (error) {
 		next(error);
@@ -302,7 +331,7 @@ module.exports = {
 	updateUserByID,
 	banUserByID,
 	unBanUserByID,
-	updatePassword,
+	updatePasswordByID,
 };
 
 // user controller
