@@ -286,7 +286,7 @@ const unBanUserByID = async (req, res, next) => {
 };
 const updatePasswordByID = async (req, res, next) => {
 	try {
-		const { email, currentPassword, newPassword, confirmPassword } = req.body;
+		const { email, currentPassword, newPassword } = req.body;
 		// const user = await User.findOne({ email });
 		// const userId = user.id;
 		const userId = req.params.id;
@@ -297,12 +297,8 @@ const updatePasswordByID = async (req, res, next) => {
 			user.password
 		);
 		if (!isPasswordMatch) {
-			throw createError(401, `Email or password didn't match`);
+			throw createError(401, `Current Password didn't match`);
 		}
-		if (newPassword != confirmPassword) {
-			throw createError(400, `passwords do not match`);
-		}
-		const filter = { userId };
 		const updates = { $set: { password: newPassword } };
 		const updateOptions = { new: true };
 		const updatedUser = await User.findByIdAndUpdate(
@@ -310,6 +306,10 @@ const updatePasswordByID = async (req, res, next) => {
 			updates,
 			updateOptions
 		).select('-password');
+
+		if (!updatedUser) {
+			throw createError(400, `User's password is not updated successfully`);
+		}
 
 		return successResponse(res, {
 			statusCode: 200,
