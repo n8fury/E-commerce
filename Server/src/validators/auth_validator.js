@@ -42,7 +42,27 @@ const userRegistrationValidator = [
 		})
 		.withMessage('image is required'),
 ];
+const userLoginValidator = [
+	body('email')
+		.trim()
+		.notEmpty()
+		.withMessage('email is required')
+		.isEmail()
+		.withMessage('Invalid email address'),
+	body('password')
+		.trim()
+		.notEmpty()
+		.withMessage('password is required')
+		.isLength({ min: 8 })
+		.withMessage('password should be at least 8 character Long')
+		.matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+		)
+		.withMessage(
+			'Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character '
+		),
+];
 
-module.exports = { userRegistrationValidator };
+module.exports = { userRegistrationValidator, userLoginValidator };
 
 //sign_in validator
