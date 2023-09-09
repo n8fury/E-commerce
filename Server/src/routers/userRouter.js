@@ -11,7 +11,10 @@ const {
 	unBanUserByID,
 	updatePasswordByID,
 } = require('../controllers/userController');
-const { userRegistrationValidator } = require('../validators/auth_validator');
+const {
+	userRegistrationValidator,
+	userPasswordUpdateValidator,
+} = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
 const {
 	isLoggedIn,
@@ -37,7 +40,12 @@ userRouter.delete('/:id', isLoggedIn, deleteUserByID);
 userRouter.put('/:id', fileUpload.single('image'), isLoggedIn, updateUserByID);
 userRouter.put('/ban-user/:id', isLoggedIn, isAdmin, banUserByID);
 userRouter.put('/unban-user/:id', isLoggedIn, isAdmin, unBanUserByID);
-
-userRouter.put('/update-password/:id', isLoggedIn, updatePasswordByID);
+userRouter.put(
+	'/update-password/:id',
+	userPasswordUpdateValidator,
+	runValidation,
+	isLoggedIn,
+	updatePasswordByID
+);
 
 module.exports = userRouter;
