@@ -35,6 +35,13 @@ userRouter.post(
 	runValidation,
 	registerUser
 );
+userRouter.post(
+	'/forget-password/',
+	userForgetPasswordValidator,
+	runValidation,
+	isLoggedIn,
+	handleForgetPasswordByEmail
+);
 userRouter.post('/activate', isLoggedOut, activateUserAccount);
 userRouter.get('/', isLoggedIn, isAdmin, getUsers);
 userRouter.get('/:id', isLoggedIn, getUserByID);
@@ -48,13 +55,6 @@ userRouter.put(
 	runValidation,
 	isLoggedIn,
 	updatePasswordByID
-);
-userRouter.post(
-	'/forget-password/:id',
-	userForgetPasswordValidator,
-	runValidation,
-	isLoggedIn,
-	handleForgetPasswordByEmail
 );
 
 module.exports = userRouter;

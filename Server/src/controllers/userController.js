@@ -6,7 +6,11 @@ const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
 const { deleteImage } = require('../helper/deleteImage');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
-const { jwtUserRegistrationKey, clientUrl } = require('../secret');
+const {
+	jwtUserRegistrationKey,
+	jwtUserPasswordResetKey,
+	clientUrl,
+} = require('../secret');
 const emailWithNodemailer = require('../helper/emailHelper');
 
 const getUsers = async (req, res, next) => {
@@ -324,9 +328,38 @@ const updatePasswordByID = async (req, res, next) => {
 };
 const handleForgetPasswordByEmail = async (req, res, next) => {
 	try {
+		const { email } = req.body;
+		const userData = await User.findOne({ email: email });
+		if (!userData) {
+			throw createError(404, `Couldn't find user associated with this email`);
+		}
+		const token = createJsonWebToken(
+			{
+				email,
+			},
+			jwtUserPasswordResetKey,
+			'10m'
+		);
+		//email_preparation
+		const emailData = {
+			email,
+			subject: 'Password Reset Email',
+			html: `
+			<h2>Hello ${userData.name}</h2>
+			<p>please click <a href="${clientUrl}/api/users/reset-password/${token}" target="_blank">Here</a> to reset your password</p>
+			`,
+		};
+		//send_email_with_nodemailer
+		try {
+			await emailWithNodemailer(emailData);
+		} catch (error) {
+			next(createError(500, 'Failed to send email due to ', error));
+			return;
+		}
 		return successResponse(res, {
 			statusCode: 200,
-			message: `link for resetting password sent to mail successfully`,
+			message: `Reset password link sent at ${email},please click the attached link to reset password`,
+			payload: {},
 		});
 	} catch (error) {
 		next(error);

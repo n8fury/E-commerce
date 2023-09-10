@@ -13,6 +13,9 @@ const jwtUserRegistrationKey =
 const jwtUserLoginKey =
 	process.env.JWT_USER_LOGIN_KEY ||
 	'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
+const jwtUserPasswordResetKey =
+	process.env.JWT_USER_PASSWORD_RESET_KEY ||
+	'4A7B2C9D1E6F3G8H5I0J2K7L4M1N8O9P2Q5R';
 const smtpUserName = process.env.SMTP_USERNAME || '';
 const smtpPassword = process.env.SMTP_PASS || '';
 const clientUrl = process.env.CLIENT_URL;
@@ -32,6 +35,7 @@ module.exports = {
 	defaultImagePath,
 	jwtUserRegistrationKey,
 	jwtUserLoginKey,
+	jwtUserPasswordResetKey,
 	smtpUserName,
 	smtpPassword,
 	clientUrl,
