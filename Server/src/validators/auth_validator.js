@@ -100,11 +100,20 @@ const userPasswordUpdateValidator = [
 		return true;
 	}),
 ];
+const userForgetPasswordValidator = [
+	body('email')
+		.trim()
+		.notEmpty()
+		.withMessage('email is required')
+		.isEmail()
+		.withMessage('Invalid email address'),
+];
 
 module.exports = {
 	userRegistrationValidator,
 	userLoginValidator,
 	userPasswordUpdateValidator,
+	userForgetPasswordValidator,
 };
 
 //sign_in validator

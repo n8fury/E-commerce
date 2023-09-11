@@ -322,6 +322,16 @@ const updatePasswordByID = async (req, res, next) => {
 		next(error);
 	}
 };
+const handleForgetPasswordByEmail = async (req, res, next) => {
+	try {
+		return successResponse(res, {
+			statusCode: 200,
+			message: `link for resetting password sent to mail successfully`,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
 module.exports = {
 	getUsers,
 	getUserByID,
@@ -332,6 +342,7 @@ module.exports = {
 	banUserByID,
 	unBanUserByID,
 	updatePasswordByID,
+	handleForgetPasswordByEmail,
 };
 
 // user controller

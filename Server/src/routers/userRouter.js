@@ -10,10 +10,12 @@ const {
 	banUserByID,
 	unBanUserByID,
 	updatePasswordByID,
+	handleForgetPasswordByEmail,
 } = require('../controllers/userController');
 const {
 	userRegistrationValidator,
 	userPasswordUpdateValidator,
+	userForgetPasswordValidator,
 } = require('../validators/auth_validator');
 const { runValidation } = require('../validators/validator_runner');
 const {
@@ -46,6 +48,13 @@ userRouter.put(
 	runValidation,
 	isLoggedIn,
 	updatePasswordByID
+);
+userRouter.post(
+	'/forget-password/:id',
+	userForgetPasswordValidator,
+	runValidation,
+	isLoggedIn,
+	handleForgetPasswordByEmail
 );
 
 module.exports = userRouter;
