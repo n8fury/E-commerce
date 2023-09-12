@@ -291,10 +291,11 @@ const unBanUserByID = async (req, res, next) => {
 const updatePasswordByID = async (req, res, next) => {
 	try {
 		const { email, currentPassword, newPassword } = req.body;
-		// const user = await User.findOne({ email });
-		// const userId = user.id;
-		const userId = req.params.id;
-		const user = await findById(User, userID);
+		// const userData = await User.findOne({ email });
+		// const userId = userData._id;
+		const userData = req.user;
+		const userId = userData._id;
+		const user = await findById(User, userId);
 		//password hash matching
 		const isPasswordMatch = await bcrypt.compare(
 			currentPassword,
@@ -303,10 +304,11 @@ const updatePasswordByID = async (req, res, next) => {
 		if (!isPasswordMatch) {
 			throw createError(401, `Current Password didn't match`);
 		}
+		const filter = userId;
 		const updates = { $set: { password: newPassword } };
 		const updateOptions = { new: true };
 		const updatedUser = await User.findByIdAndUpdate(
-			userId,
+			filter,
 			updates,
 			updateOptions
 		).select('-password');
@@ -317,7 +319,7 @@ const updatePasswordByID = async (req, res, next) => {
 
 		return successResponse(res, {
 			statusCode: 200,
-			message: `User's Password  updated Successfully`,
+			message: `User's Password updated Successfully`,
 			payload: {
 				updatedUser,
 			},
@@ -326,7 +328,7 @@ const updatePasswordByID = async (req, res, next) => {
 		next(error);
 	}
 };
-const handleForgetPasswordByEmail = async (req, res, next) => {
+const handleForgetPassword = async (req, res, next) => {
 	try {
 		const { email } = req.body;
 		const userData = await User.findOne({ email: email });
@@ -359,7 +361,35 @@ const handleForgetPasswordByEmail = async (req, res, next) => {
 		return successResponse(res, {
 			statusCode: 200,
 			message: `Reset password link sent at ${email},please click the attached link to reset password`,
-			payload: {},
+			payload: {
+				token,
+			},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+const handleResetPassword = async (req, res, next) => {
+	try {
+		const { token, newPassword } = req.body;
+		const decoded = jwt.verify(token, jwtUserPasswordResetKey);
+		if (!decoded) {
+			throw createError(400, 'Invalid or Expired Token');
+		}
+		const filter = { email: decoded.email };
+		const updates = { $set: { password: newPassword } };
+		const updateOptions = { new: true };
+		const updatedUser = await User.findOneAndUpdate(
+			filter,
+			updates,
+			updateOptions
+		).select('-password');
+		if (!updatedUser) {
+			throw createError(400, `User's password is not updated successfully`);
+		}
+		return successResponse(res, {
+			statusCode: 200,
+			message: `password reset successfully`,
 		});
 	} catch (error) {
 		next(error);
@@ -375,8 +405,11 @@ module.exports = {
 	banUserByID,
 	unBanUserByID,
 	updatePasswordByID,
-	handleForgetPasswordByEmail,
+	handleForgetPassword,
+	handleResetPassword,
 };
 
 // user controller
 // TODO: well document whole codebase in this controller
+/*TODO:update UserUpdate controller to remove acquisition of id from req. param
+rather acquire id from userinfo from db*/

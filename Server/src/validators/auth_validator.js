@@ -84,9 +84,9 @@ const userPasswordUpdateValidator = [
 	body('newPassword')
 		.trim()
 		.notEmpty()
-		.withMessage('current Password is required')
+		.withMessage('New Password is required')
 		.isLength({ min: 8 })
-		.withMessage('Current password should be at least 8 character Long')
+		.withMessage('New password should be at least 8 character Long')
 		.matches(
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 		)
@@ -108,12 +108,34 @@ const userForgetPasswordValidator = [
 		.isEmail()
 		.withMessage('Invalid email address'),
 ];
+const userResetPasswordValidator = [
+	body('token').trim().notEmpty().withMessage('Token is missing'),
+	body('newPassword')
+		.trim()
+		.notEmpty()
+		.withMessage('New Password is required')
+		.isLength({ min: 8 })
+		.withMessage('New password should be at least 8 character Long')
+		.matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+		)
+		.withMessage(
+			'Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character '
+		),
+	body('confirmPassword').custom((value, { req }) => {
+		if (value != req.body.newPassword) {
+			throw new Error("passwords didn't match");
+		}
+		return true;
+	}),
+];
 
 module.exports = {
 	userRegistrationValidator,
 	userLoginValidator,
 	userPasswordUpdateValidator,
 	userForgetPasswordValidator,
+	userResetPasswordValidator,
 };
 
 //sign_in validator
