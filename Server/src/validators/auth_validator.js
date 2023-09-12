@@ -93,7 +93,7 @@ const userPasswordUpdateValidator = [
 		.withMessage(
 			'Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character '
 		),
-	body('confirmNewPassword').custom((value, { req }) => {
+	body('confirmPassword').custom((value, { req }) => {
 		if (value != req.body.newPassword) {
 			throw new Error("passwords didn't match");
 		}
