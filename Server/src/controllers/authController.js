@@ -87,6 +87,9 @@ const refreshTokenHandler = async (req, res, next) => {
 		if (!decoded) {
 			throw createError(401, 'invalid refresh token,please login again');
 		}
+		if (res.cookie.loginToken) {
+			throw createError(403, 'Forbidden!login token is not expired');
+		}
 		//create_jwt
 		const loginToken = createJsonWebToken(decoded.user, jwtUserLoginKey, '15m');
 		//cookie
