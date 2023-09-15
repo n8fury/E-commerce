@@ -5,7 +5,7 @@ const { jwtUserLoginKey, jwtUserLoginRefreshKey } = require('../secret');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { successResponse } = require('./responseController');
 
-const userLogin = async (req, res, next) => {
+const userLoginHandler = async (req, res, next) => {
 	try {
 		const { email, password } = req.body; // email and pass should be from req.body
 		const user = await User.findOne({ email });
@@ -66,7 +66,7 @@ const userLogin = async (req, res, next) => {
         */
 };
 
-const userLogout = async (req, res, next) => {
+const userLogoutHandler = async (req, res, next) => {
 	try {
 		//clear cookie
 		res.clearCookie('loginToken');
@@ -80,4 +80,29 @@ const userLogout = async (req, res, next) => {
 		next(error);
 	}
 };
-module.exports = { userLogin, userLogout };
+const refreshTokenHandler = async (req, res, next) => {
+	try {
+		const oldRefreshToken = res.cookie.refreshToken;
+		const decoded = jwt.verify(oldRefreshToken, jwtUserLoginRefreshKey);
+		if (!decoded) {
+			throw createError(401, 'invalid refresh token,please login again');
+		}
+		//create_jwt
+		const loginToken = createJsonWebToken(decoded.user, jwtUserLoginKey, '15m');
+		//cookie
+		res.cookie('loginToken', loginToken, {
+			maxAge: 15 * 60 * 1000, //15 minutes
+			httpOnly: true,
+			secure: true,
+			sameSite: 'none',
+		});
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'New Access token generated successfully',
+			payload: {},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+module.exports = { userLoginHandler, userLogoutHandler, refreshTokenHandler };
