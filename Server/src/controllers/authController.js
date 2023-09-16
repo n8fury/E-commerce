@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
-const { jwtUserLoginKey } = require('../secret');
+const { jwtUserLoginKey, jwtUserLoginRefreshKey } = require('../secret');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { successResponse } = require('./responseController');
 
@@ -34,6 +34,19 @@ const userLogin = async (req, res, next) => {
 			secure: true,
 			sameSite: 'none',
 		});
+		const refreshToken = createJsonWebToken(
+			{ user },
+			jwtUserLoginRefreshKey,
+			'7d'
+		);
+		//cookie
+		res.cookie('refreshToken', refreshToken, {
+			maxAge: 7 * 24 * 60 * 60 * 1000, //7 day converted to milisec
+			httpOnly: true,
+			secure: true,
+			sameSite: 'none',
+		});
+
 		const secureUser = await User.findOne({ email }).select('-password');
 		return successResponse(res, {
 			statusCode: 200,
@@ -57,6 +70,7 @@ const userLogout = async (req, res, next) => {
 	try {
 		//clear cookie
 		res.clearCookie('loginToken');
+		res.clearCookie('refreshToken');
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User loggedOut Successful',

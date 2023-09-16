@@ -13,6 +13,9 @@ const jwtUserRegistrationKey =
 const jwtUserLoginKey =
 	process.env.JWT_USER_LOGIN_KEY ||
 	'sdsadw223ggfjkkjtrtwErtyuiop!@$dfhjkcvbnm65';
+const jwtUserLoginRefreshKey =
+	process.env.JWT_USER_LOGIN_REFRESH_KEY ||
+	'1P9mK7zR8fJk2N6gDwXqL3sYbVp5CtH7oEaU4TjGxWcVzX1mN';
 const jwtUserPasswordResetKey =
 	process.env.JWT_USER_PASSWORD_RESET_KEY ||
 	'4A7B2C9D1E6F3G8H5I0J2K7L4M1N8O9P2Q5R';
@@ -36,6 +39,7 @@ module.exports = {
 	jwtUserRegistrationKey,
 	jwtUserLoginKey,
 	jwtUserPasswordResetKey,
+	jwtUserLoginRefreshKey,
 	smtpUserName,
 	smtpPassword,
 	clientUrl,
