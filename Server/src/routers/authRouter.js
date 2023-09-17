@@ -4,6 +4,7 @@ const {
 	userLoginHandler,
 	userLogoutHandler,
 	refreshTokenHandler,
+	protectedRouteHandler,
 } = require('../controllers/authController');
 const { isLoggedIn, isLoggedOut } = require('../middlewares/authentication');
 const { userLoginValidator } = require('../validators/auth_validator');
@@ -19,5 +20,6 @@ authRouter.post(
 );
 authRouter.post('/logout', isLoggedIn, userLogoutHandler);
 authRouter.post('/refresh-token', refreshTokenHandler);
+authRouter.post('/protected', protectedRouteHandler);
 
 module.exports = authRouter;

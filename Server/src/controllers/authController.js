@@ -108,4 +108,26 @@ const refreshTokenHandler = async (req, res, next) => {
 		next(error);
 	}
 };
-module.exports = { userLoginHandler, userLogoutHandler, refreshTokenHandler };
+const protectedRouteHandler = async (req, res, next) => {
+	try {
+		const oldLoginToken = res.cookie.loginToken;
+		const decoded = jwt.verify(oldLoginToken, jwtUserLoginKey);
+		if (!decoded) {
+			throw createError(401, 'invalid login token,please login again');
+		}
+
+		return successResponse(res, {
+			statusCode: 200,
+			message: 'Protected route accessed successfully',
+			payload: {},
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+module.exports = {
+	userLoginHandler,
+	userLogoutHandler,
+	refreshTokenHandler,
+	protectedRouteHandler,
+};
