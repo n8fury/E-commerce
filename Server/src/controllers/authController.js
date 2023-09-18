@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { jwtUserLoginKey, jwtUserLoginRefreshKey } = require('../secret');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const { successResponse } = require('./responseController');
@@ -29,7 +30,7 @@ const userLoginHandler = async (req, res, next) => {
 		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '15m');
 		//cookie
 		res.cookie('loginToken', loginToken, {
-			maxAge: 15 * 60 * 1000, //15 minutes
+			maxAge: 1 * 60 * 1000, //15 minutes
 			httpOnly: true,
 			secure: true,
 			sameSite: 'none',
@@ -82,14 +83,14 @@ const userLogoutHandler = async (req, res, next) => {
 };
 const refreshTokenHandler = async (req, res, next) => {
 	try {
-		const oldRefreshToken = res.cookie.refreshToken;
+		const oldRefreshToken = req.cookies.refreshToken;
 		const decoded = jwt.verify(oldRefreshToken, jwtUserLoginRefreshKey);
 		if (!decoded) {
 			throw createError(401, 'invalid refresh token,please login again');
 		}
-		if (res.cookie.loginToken) {
-			throw createError(403, 'Forbidden!login token is not expired');
-		}
+		// if (res.cookie.loginToken) {
+		// 	throw createError(403, 'Forbidden!login token is not expired');
+		// }
 		//create_jwt
 		const loginToken = createJsonWebToken(decoded.user, jwtUserLoginKey, '15m');
 		//cookie
@@ -110,7 +111,7 @@ const refreshTokenHandler = async (req, res, next) => {
 };
 const protectedRouteHandler = async (req, res, next) => {
 	try {
-		const oldLoginToken = res.cookie.loginToken;
+		const oldLoginToken = req.cookies.loginToken;
 		const decoded = jwt.verify(oldLoginToken, jwtUserLoginKey);
 		if (!decoded) {
 			throw createError(401, 'invalid login token,please login again');
