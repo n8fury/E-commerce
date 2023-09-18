@@ -30,7 +30,7 @@ const userLoginHandler = async (req, res, next) => {
 		const loginToken = createJsonWebToken({ user }, jwtUserLoginKey, '15m');
 		//cookie
 		res.cookie('loginToken', loginToken, {
-			maxAge: 1 * 60 * 1000, //15 minutes
+			maxAge: 15 * 60 * 1000, //15 minutes
 			httpOnly: true,
 			secure: true,
 			sameSite: 'none',
