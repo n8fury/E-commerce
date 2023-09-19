@@ -37,17 +37,10 @@ userRouter.post(
 	runValidation,
 	registerUser
 );
-userRouter.post(
-	'/forget-password/',
-	userForgetPasswordValidator,
-	runValidation,
-	isLoggedIn,
-	handleForgetPassword
-);
 userRouter.post('/activate', isLoggedOut, activateUserAccount);
 userRouter.get('/', isLoggedIn, isAdmin, getUsers);
-userRouter.get('/:id', isLoggedIn, getUserByID);
-userRouter.delete('/:id', isLoggedIn, deleteUserByID);
+userRouter.get('/:id([0-9a-fA-F]{24})', isLoggedIn, getUserByID);
+userRouter.delete('/:id([0-9a-fA-F]{24})', isLoggedIn, deleteUserByID);
 userRouter.put(
 	'/update-password/',
 	userPasswordUpdateValidator,
@@ -55,8 +48,25 @@ userRouter.put(
 	isLoggedIn,
 	updatePasswordByID
 );
-userRouter.put('/ban-user/:id', isLoggedIn, isAdmin, banUserByID);
-userRouter.put('/unban-user/:id', isLoggedIn, isAdmin, unBanUserByID);
+userRouter.put(
+	'/ban-user/:id([0-9a-fA-F]{24})',
+	isLoggedIn,
+	isAdmin,
+	banUserByID
+);
+userRouter.put(
+	'/unban-user/:id([0-9a-fA-F]{24})',
+	isLoggedIn,
+	isAdmin,
+	unBanUserByID
+);
+userRouter.post(
+	'/forget-password/',
+	userForgetPasswordValidator,
+	runValidation,
+	isLoggedIn,
+	handleForgetPassword
+);
 userRouter.put(
 	'/reset-password/',
 	userResetPasswordValidator,
