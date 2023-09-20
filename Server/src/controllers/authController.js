@@ -48,7 +48,8 @@ const userLoginHandler = async (req, res, next) => {
 			sameSite: 'none',
 		});
 
-		const secureUser = await User.findOne({ email }).select('-password');
+		const secureUser = user.toObject();
+		delete secureUser.password;
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User loggedIn Successful',
