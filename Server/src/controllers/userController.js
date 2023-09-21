@@ -61,11 +61,13 @@ const getUserByID = async (req, res, next) => {
 		const id = req.params.id;
 		const option = { password: 0 };
 		const user = await findById(User, id, option);
+		const secureUser = user.toObject(); //converting user to object
+		delete secureUser.password; //removing object properties
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User Returned Successfully',
 			payload: {
-				user,
+				secureUser,
 			},
 		});
 	} catch (error) {
@@ -221,15 +223,17 @@ const updateUserByID = async (req, res, next) => {
 			userId,
 			updates,
 			updateOptions
-		).select('-password');
+		);
 		if (!updatedUser) {
 			throw createError(404, 'user with this id does not exists');
 		}
+		const secureUser = updatedUser.toObject(); //converting user to object
+		delete secureUser.password; //removing object properties
 		return successResponse(res, {
 			statusCode: 200,
 			message: `User updated Successfully`,
 			payload: {
-				updatedUser,
+				secureUser,
 			},
 		});
 	} catch (error) {
@@ -250,7 +254,7 @@ const banUserByID = async (req, res, next) => {
 			userId,
 			updates,
 			updateOptions
-		).select('-password');
+		);
 		if (!updatedUser) {
 			throw createError(404, 'user with this id does not exists');
 		}
@@ -276,7 +280,7 @@ const unBanUserByID = async (req, res, next) => {
 			userId,
 			updates,
 			updateOptions
-		).select('-password');
+		);
 		if (!updatedUser) {
 			throw createError(404, 'user with this id does not exists');
 		}
@@ -288,7 +292,7 @@ const unBanUserByID = async (req, res, next) => {
 		next(error);
 	}
 };
-const updatePasswordByID = async (req, res, next) => {
+const updatePassword = async (req, res, next) => {
 	try {
 		const { email, currentPassword, newPassword } = req.body;
 		// const userData = await User.findOne({ email });
@@ -311,17 +315,20 @@ const updatePasswordByID = async (req, res, next) => {
 			filter,
 			updates,
 			updateOptions
-		).select('-password');
+		);
 
 		if (!updatedUser) {
 			throw createError(400, `User's password is not updated successfully`);
 		}
 
+		const secureUser = user.toObject(); //converting user to object
+		delete secureUser.password; //removing object properties
+
 		return successResponse(res, {
 			statusCode: 200,
 			message: `User's Password updated Successfully`,
 			payload: {
-				updatedUser,
+				secureUser,
 			},
 		});
 	} catch (error) {
@@ -383,7 +390,7 @@ const handleResetPassword = async (req, res, next) => {
 			filter,
 			updates,
 			updateOptions
-		).select('-password');
+		);
 		if (!updatedUser) {
 			throw createError(400, `User's password is not updated successfully`);
 		}
@@ -404,7 +411,7 @@ module.exports = {
 	updateUserByID,
 	banUserByID,
 	unBanUserByID,
-	updatePasswordByID,
+	updatePassword,
 	handleForgetPassword,
 	handleResetPassword,
 };

@@ -48,8 +48,13 @@ const userLoginHandler = async (req, res, next) => {
 			sameSite: 'none',
 		});
 
-		const secureUser = user.toObject();
-		delete secureUser.password;
+		const secureUser = user.toObject(); //converting user to object
+		delete secureUser.password; //removing object properties
+		/* this objectification will convert image buffer string into string
+		previous method would return buffer string
+		prev method = const secureUser = await User.findOne({ email }).select('-password'); 
+		this will fetch user from database which is not efficient
+		 */
 		return successResponse(res, {
 			statusCode: 200,
 			message: 'User loggedIn Successful',

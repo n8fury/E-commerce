@@ -9,7 +9,7 @@ const {
 	updateUserByID,
 	banUserByID,
 	unBanUserByID,
-	updatePasswordByID,
+	updatePassword,
 	handleForgetPassword,
 	handleResetPassword,
 } = require('../controllers/userController');
@@ -46,7 +46,7 @@ userRouter.put(
 	userPasswordUpdateValidator,
 	runValidation,
 	isLoggedIn,
-	updatePasswordByID
+	updatePassword
 );
 userRouter.put(
 	'/ban-user/:id([0-9a-fA-F]{24})',
