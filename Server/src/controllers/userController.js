@@ -34,7 +34,8 @@ const getUsers = async (req, res, next) => {
 		const users = await User.find(filter, option)
 			.limit(limit) // limiting user per page
 			.skip((page - 1) * limit); // skipping user as page increase
-		if (!users) throw createError(404, 'user not found'); //throwing error for not finding user
+
+		if (!users || users.length <= 0) throw createError(404, 'No users found'); //throwing error for not finding user
 
 		const count = await User.find(filter).countDocuments(); // counting search result for pagination
 
