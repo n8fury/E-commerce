@@ -7,10 +7,10 @@ const connectDB = async (options = {}) => {
 		await mongoose.connect(mongodbUrl, options);
 		logger.log('info', 'connected to DB');
 		mongoose.connection.on('error', (error) => {
-			console.error('Db connection error : ', error);
+			logger.log('error', 'Db connection error : ', error);
 		});
 	} catch (error) {
-		console.error("couldn't connect to db: ", error.toString());
+		logger.log('error', "couldn't connect to db: ", error.toString());
 	}
 };
 
