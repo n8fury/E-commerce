@@ -9,14 +9,15 @@ const userRouter = require('./routers/userRouter');
 const healthRouter = require('./routers/healthRouter');
 const seedRouter = require('./routers/seedRouter');
 const authRouter = require('./routers/authRouter');
+const categoryRouter = require('./routers/categoryRouter');
 const { errorResponse } = require('./controllers/responseController');
 
 const app = express();
 
 const rateLimiter = rateLimit({
-	windowMs: 1 * 1000 * 60, // converted millisecond to second
-	rate: 5,
-	message: 'request limit expired',
+  windowMs: 1 * 1000 * 60, // converted millisecond to second
+  rate: 5,
+  message: 'request limit expired',
 });
 
 app.use(cookieParser());
@@ -34,25 +35,26 @@ app.use('/api/health', healthRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/seed', seedRouter);
+app.use('/api/categories', categoryRouter);
 
 //home route
 app.get('/', (req, res) => {
-	res.status(200).send({
-		message: 'Home Route',
-	});
+  res.status(200).send({
+    message: 'Home Route',
+  });
 });
 
 //client error handling
 app.use((req, res, next) => {
-	next(createError(404, 'route not found'));
+  next(createError(404, 'route not found'));
 });
 
 //server error handling => all errors even client errors
 app.use((err, req, res, next) => {
-	return errorResponse(res, {
-		statusCode: err.status,
-		message: err.message,
-	});
+  return errorResponse(res, {
+    statusCode: err.status,
+    message: err.message,
+  });
 });
 
 module.exports = app;
