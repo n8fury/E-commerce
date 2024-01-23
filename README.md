@@ -18,6 +18,7 @@ Welcome to the Node.js E-commerce Project repository! This project is a simple e
     - [6. `PUT /api/users/:id`](#6-put-apiusersid)
     - [7. `POST /api/auth/login`](#7-post-apiauthlogin)
     - [8. `POST /api/auth/logout`](#8-post-apiauthlogout)
+    - [9. `POST /api/categories`](#-post-categories)
   - [Middlewares](#middlewares)
     - [1. `fileUpload` Middleware](#1-fileupload-middleware)
     - [2. `isLoggedin` Middleware](#2-isloggedin-middleware)
@@ -97,6 +98,11 @@ Here are the main endpoints and functionalities of the application:
 
 - Description: User login.
 - Usage: This endpoint allows users to log out from the system.
+
+### 9. `POST /api/categories`
+
+- Description: Create a new category.
+- Usage: This endpoint allows you to create a new category in your e-commerce system. It is typically used to categorize products.
 
 </br>
 
