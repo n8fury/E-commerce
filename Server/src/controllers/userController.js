@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { successResponse } = require('./responseController');
 const { findById } = require('../services/findById');
-const { deleteImage } = require('../helper/deleteImage');
+// const { deleteImage } = require('../helper/deleteImage');
 const { createJsonWebToken } = require('../helper/JsonWebToken');
 const {
 	jwtUserRegistrationKey,
@@ -81,8 +81,8 @@ const deleteUserByID = async (req, res, next) => {
 		const id = req.params.id;
 		const option = { password: 0 };
 		const user = await findById(User, id, option);
-		const userImagePath = user.image;
-		deleteImage(userImagePath);
+		// const userImagePath = user.image;
+		// deleteImage(userImagePath);
 
 		await User.findByIdAndDelete({
 			_id: id,
